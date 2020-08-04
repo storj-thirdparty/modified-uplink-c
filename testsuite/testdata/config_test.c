@@ -22,17 +22,17 @@ int main(int argc, char *argv[])
 
     {
         AccessResult access_result = config_request_access_with_passphrase(config, NULL, api_key, "mypassphrase");
-        require_error(access_result.error, ERROR_INTERNAL);
+        require_error(access_result.error, UPLINK_ERROR_INTERNAL);
         require(access_result.access == NULL);
         free_access_result(access_result);
 
         access_result = config_request_access_with_passphrase(config, satellite_addr, NULL, "mypassphrase");
-        require_error(access_result.error, ERROR_INTERNAL);
+        require_error(access_result.error, UPLINK_ERROR_INTERNAL);
         require(access_result.access == NULL);
         free_access_result(access_result);
 
         access_result = config_request_access_with_passphrase(config, satellite_addr, api_key, NULL);
-        require_error(access_result.error, ERROR_INTERNAL);
+        require_error(access_result.error, UPLINK_ERROR_INTERNAL);
         require(access_result.access == NULL);
         free_access_result(access_result);
 
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
         require(project_result.project != NULL);
         // check if project can be used to call satellite
         BucketResult bucket_result = stat_bucket(project_result.project, "not-existing-bucket");
-        require_error(bucket_result.error, ERROR_BUCKET_NOT_FOUND);
+        require_error(bucket_result.error, UPLINK_ERROR_BUCKET_NOT_FOUND);
         require(bucket_result.bucket == NULL);
         free_bucket_result(bucket_result);
         free_project_result(project_result);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
         free_project_result(project_result);
 
         project_result = config_open_project(config, NULL);
-        require_error(project_result.error, ERROR_INTERNAL);
+        require_error(project_result.error, UPLINK_ERROR_INTERNAL);
         require(project_result.project == NULL);
         free_project_result(project_result);
 

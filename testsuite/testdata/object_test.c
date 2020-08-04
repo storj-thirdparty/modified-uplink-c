@@ -160,7 +160,7 @@ void handle_project(Project *project)
 
     { // deleting a missing object
         ObjectResult object_result = delete_object(project, "alpha", "data.txt");
-        require_error(object_result.error, ERROR_OBJECT_NOT_FOUND);
+        require_error(object_result.error, UPLINK_ERROR_OBJECT_NOT_FOUND);
         require(object_result.object == NULL);
         free_object_result(object_result);
     }

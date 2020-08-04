@@ -15,12 +15,12 @@ void test_access_share(Access *access)
         Permission emptyPermission = {};
         SharePrefix emptyPrefixes[] = {};
         AccessResult shared_access_result = access_share(NULL, emptyPermission, emptyPrefixes, 0);
-        require_error(shared_access_result.error, ERROR_INTERNAL);
+        require_error(shared_access_result.error, UPLINK_ERROR_INTERNAL);
         require(shared_access_result.access == NULL);
         free_access_result(shared_access_result);
 
         shared_access_result = access_share(access, emptyPermission, emptyPrefixes, 0);
-        require_error(shared_access_result.error, ERROR_INTERNAL);
+        require_error(shared_access_result.error, UPLINK_ERROR_INTERNAL);
         require(shared_access_result.access == NULL);
         free_access_result(shared_access_result);
 
