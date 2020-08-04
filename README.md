@@ -1,6 +1,6 @@
-# uplink-c
+# modified-uplink-c
 
-C library for Storj V3 Network.
+Modified C library to be suggested for Storj V3 Network.
 
 ![Beta](https://img.shields.io/badge/version-beta-green.svg)
 
