@@ -19,22 +19,22 @@ type ObjectIterator struct {
 	initialError error
 }
 
-//export list_objects
-// list_objects lists objects.
-func list_objects(project *C.Project, bucket_name *C.char, options *C.ListObjectsOptions) *C.ObjectIterator { //nolint:golint
+//export uplink_list_objects
+// uplink_list_objects lists objects.
+func uplink_list_objects(project *C.Uplink_Project, bucket_name *C.char, options *C.Uplink_ListObjectsOptions) *C.Uplink_ObjectIterator { //nolint:golint
 	if project == nil {
-		return (*C.ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
+		return (*C.Uplink_ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
 			initialError: ErrNull.New("project"),
 		})))
 	}
 	if bucket_name == nil {
-		return (*C.ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
+		return (*C.Uplink_ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
 			initialError: ErrNull.New("bucket_name"),
 		})))
 	}
 	proj, ok := universe.Get(project._handle).(*Project)
 	if !ok {
-		return (*C.ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
+		return (*C.Uplink_ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
 			initialError: ErrInvalidHandle.New("project"),
 		})))
 	}
@@ -52,17 +52,17 @@ func list_objects(project *C.Project, bucket_name *C.char, options *C.ListObject
 	scope := proj.scope.child()
 	iterator := proj.ListObjects(scope.ctx, C.GoString(bucket_name), opts)
 
-	return (*C.ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
+	return (*C.Uplink_ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
 		scope:    scope,
 		iterator: iterator,
 	})))
 }
 
-//export object_iterator_next
-// object_iterator_next prepares next Object for reading.
+//export uplink_object_iterator_next
+// upink_object_iterator_next prepares next Object for reading.
 //
 // It returns false if the end of the iteration is reached and there are no more objects, or if there is an error.
-func object_iterator_next(iterator *C.ObjectIterator) C.bool {
+func uplink_object_iterator_next(iterator *C.Uplink_ObjectIterator) C.bool {
 	if iterator == nil {
 		return C.bool(false)
 	}
@@ -78,9 +78,9 @@ func object_iterator_next(iterator *C.ObjectIterator) C.bool {
 	return C.bool(iter.iterator.Next())
 }
 
-//export object_iterator_err
-// object_iterator_err returns error, if one happened during iteration.
-func object_iterator_err(iterator *C.ObjectIterator) *C.Error {
+//export uplink_object_iterator_err
+// uplink_object_iterator_err returns error, if one happened during iteration.
+func uplink_object_iterator_err(iterator *C.Uplink_ObjectIterator) *C.Uplink_Error {
 	if iterator == nil {
 		return mallocError(ErrNull.New("iterator"))
 	}
@@ -96,9 +96,9 @@ func object_iterator_err(iterator *C.ObjectIterator) *C.Error {
 	return mallocError(iter.iterator.Err())
 }
 
-//export object_iterator_item
-// object_iterator_item returns the current object in the iterator.
-func object_iterator_item(iterator *C.ObjectIterator) *C.Object {
+//export uplink_object_iterator_item
+// uplink_object_iterator_item returns the current object in the iterator.
+func uplink_object_iterator_item(iterator *C.Uplink_ObjectIterator) *C.Uplink_Object {
 	if iterator == nil {
 		return nil
 	}
@@ -111,9 +111,9 @@ func object_iterator_item(iterator *C.ObjectIterator) *C.Object {
 	return mallocObject(iter.iterator.Item())
 }
 
-//export free_object_iterator
-// free_object_iterator frees memory associated with the ObjectIterator.
-func free_object_iterator(iterator *C.ObjectIterator) {
+//export uplink_free_object_iterator
+// uplink_free_object_iterator frees memory associated with the ObjectIterator.
+func uplink_free_object_iterator(iterator *C.Uplink_ObjectIterator) {
 	if iterator == nil {
 		return
 	}
