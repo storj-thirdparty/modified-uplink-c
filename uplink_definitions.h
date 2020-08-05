@@ -30,16 +30,16 @@ typedef struct Uplink_EncryptionKey {
 } Uplink_EncryptionKey;
 
 typedef struct Uplink_Config {
-    char *user_agent;
+    const char *user_agent;
 
     int32_t dial_timeout_milliseconds;
 
     // temp_directory specifies where to save data during downloads to use less memory.
-    char *temp_directory;
+    const char *temp_directory;
 } Uplink_Config;
 
 typedef struct Uplink_Bucket {
-    char *name;
+    const char *name;
     int64_t created;
 } Uplink_Bucket;
 
@@ -50,10 +50,10 @@ typedef struct Uplink_SystemMetadata {
 } Uplink_SystemMetadata;
 
 typedef struct Uplink_CustomMetadataEntry {
-    char *key;
+    const char *key;
     size_t key_length;
 
-    char *value;
+    const char *value;
     size_t value_length;
 } Uplink_CustomMetadataEntry;
 
@@ -63,7 +63,7 @@ typedef struct Uplink_CustomMetadata {
 } Uplink_CustomMetadata;
 
 typedef struct Uplink_Object {
-    char *key;
+    const char *key;
     bool is_prefix;
     Uplink_SystemMetadata system;
     Uplink_CustomMetadata custom;
@@ -81,8 +81,8 @@ typedef struct Uplink_DownloadOptions {
 } Uplink_DownloadOptions;
 
 typedef struct Uplink_ListObjectsOptions {
-    char *prefix;
-    char *cursor;
+    const char *prefix;
+    const char *cursor;
     bool recursive;
 
     bool system;
@@ -90,7 +90,7 @@ typedef struct Uplink_ListObjectsOptions {
 } Uplink_ListObjectsOptions;
 
 typedef struct Uplink_ListBucketsOptions {
-    char *cursor;
+    const char *cursor;
 } Uplink_ListBucketsOptions;
 
 typedef struct Uplink_ObjectIterator {
@@ -115,14 +115,14 @@ typedef struct Uplink_Permission {
 } Uplink_Permission;
 
 typedef struct Uplink_SharePrefix {
-    char *bucket;
+    const char *bucket;
     // prefix is the prefix of the shared object keys.
-    char *prefix;
+    const char *prefix;
 } Uplink_SharePrefix;
 
 typedef struct Uplink_Error {
     int32_t code;
-    char *message;
+    const char *message;
 } Uplink_Error;
 
 enum {
@@ -183,7 +183,7 @@ typedef struct Uplink_ReadResult {
 } Uplink_ReadResult;
 
 typedef struct Uplink_StringResult {
-    char *string;
+    const char *string;
     Uplink_Error *error;
 } Uplink_StringResult;
 
