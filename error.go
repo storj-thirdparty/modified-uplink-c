@@ -26,12 +26,12 @@ var (
 	ErrInvalidArg = errs.Class("invalid argument")
 )
 
-func mallocError(err error) *C.Error {
+func mallocError(err error) *C.Uplink_Error {
 	if err == nil {
 		return nil
 	}
 
-	cerror := (*C.Error)(C.calloc(C.sizeof_Error, 1))
+	cerror := (*C.Uplink_Error)(C.calloc(C.sizeof_Uplink_Error, 1))
 
 	switch {
 	case errors.Is(err, io.EOF):
@@ -71,9 +71,9 @@ func mallocError(err error) *C.Error {
 	return cerror
 }
 
-//export free_error
-// free_error frees error data.
-func free_error(err *C.Error) {
+//export uplink_free_error
+// uplink_free_error frees error data.
+func uplink_free_error(err *C.Uplink_Error) {
 	if err == nil {
 		return
 	}

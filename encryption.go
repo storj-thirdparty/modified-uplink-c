@@ -17,22 +17,22 @@ type EncryptionKey struct {
 	*uplink.EncryptionKey
 }
 
-//export derive_encryption_key
-// derive_encryption_key derives a salted encryption key for passphrase using the
+//export uplink_derive_encryption_key
+// uplink_derive_encryption_key derives a salted encryption key for passphrase using the
 // salt.
 //
 // This function is useful for deriving a salted encryption key for users when
 // implementing multitenancy in a single app bucket.
-func derive_encryption_key(passphrase *C.char, salt unsafe.Pointer, length C.size_t) C.EncryptionKeyResult {
+func uplink_derive_encryption_key(passphrase *C.char, salt unsafe.Pointer, length C.size_t) C.Uplink_EncryptionKeyResult {
 	if passphrase == nil {
-		return C.EncryptionKeyResult{
+		return C.Uplink_EncryptionKeyResult{
 			error: mallocError(ErrNull.New("passphrase")),
 		}
 	}
 
 	ilength, ok := safeConvertToInt(length)
 	if !ok {
-		return C.EncryptionKeyResult{
+		return C.Uplink_EncryptionKeyResult{
 			error: mallocError(ErrInvalidArg.New("length too large")),
 		}
 	}
@@ -46,24 +46,24 @@ func derive_encryption_key(passphrase *C.char, salt unsafe.Pointer, length C.siz
 
 	encKey, err := uplink.DeriveEncryptionKey(C.GoString(passphrase), goSalt)
 	if err != nil {
-		return C.EncryptionKeyResult{
+		return C.Uplink_EncryptionKeyResult{
 			error: mallocError(err),
 		}
 	}
 
-	return C.EncryptionKeyResult{
-		encryption_key: (*C.EncryptionKey)(mallocHandle(universe.Add(&EncryptionKey{encKey}))),
+	return C.Uplink_EncryptionKeyResult{
+		encryption_key: (*C.Uplink_EncryptionKey)(mallocHandle(universe.Add(&EncryptionKey{encKey}))),
 	}
 }
 
-//export free_encryption_key_result
-// free_encryption_key_result frees the resources associated with encryption key.
-func free_encryption_key_result(result C.EncryptionKeyResult) {
-	free_error(result.error)
+//export uplink_free_encryption_key_result
+// uplink_free_encryption_key_result frees the resources associated with encryption key.
+func uplink_free_encryption_key_result(result C.Uplink_EncryptionKeyResult) {
+	uplink_free_error(result.error)
 	freeEncryptionKey(result.encryption_key)
 }
 
-func freeEncryptionKey(encryptionKey *C.EncryptionKey) {
+func freeEncryptionKey(encryptionKey *C.Uplink_EncryptionKey) {
 	if encryptionKey == nil {
 		return
 	}

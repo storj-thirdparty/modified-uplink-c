@@ -16,9 +16,9 @@ import (
 // note: while there are restrictions on what can be stored in custom metadata.
 // the following functions should work with arbitrary byte strings as keys and values.
 
-func customMetadataToC(customMetadata uplink.CustomMetadata) C.CustomMetadata {
+func customMetadataToC(customMetadata uplink.CustomMetadata) C.Uplink_CustomMetadata {
 	if customMetadata == nil {
-		return C.CustomMetadata{}
+		return C.Uplink_CustomMetadata{}
 	}
 
 	type entry struct {
@@ -32,13 +32,13 @@ func customMetadataToC(customMetadata uplink.CustomMetadata) C.CustomMetadata {
 	}
 	sort.Slice(sorted, func(i, k int) bool { return sorted[i].key < sorted[k].key })
 
-	entries := (*C.CustomMetadataEntry)(C.calloc(C.sizeof_CustomMetadataEntry, C.size_t(len(sorted))))
-	custom := C.CustomMetadata{
+	entries := (*C.Uplink_CustomMetadataEntry)(C.calloc(C.sizeof_Uplink_CustomMetadataEntry, C.size_t(len(sorted))))
+	custom := C.Uplink_CustomMetadata{
 		entries: entries,
 		count:   C.size_t(len(sorted)),
 	}
 
-	var array []C.CustomMetadataEntry
+	var array []C.Uplink_CustomMetadataEntry
 	*(*reflect.SliceHeader)(unsafe.Pointer(&array)) = reflect.SliceHeader{
 		Data: uintptr(unsafe.Pointer(entries)),
 		Len:  len(sorted),
@@ -48,7 +48,7 @@ func customMetadataToC(customMetadata uplink.CustomMetadata) C.CustomMetadata {
 	for i, kv := range sorted {
 		ckey := C.CString(kv.key)
 
-		array[i] = C.CustomMetadataEntry{
+		array[i] = C.Uplink_CustomMetadataEntry{
 			key:        ckey,
 			key_length: C.size_t(len(kv.key)),
 
@@ -60,14 +60,14 @@ func customMetadataToC(customMetadata uplink.CustomMetadata) C.CustomMetadata {
 	return custom
 }
 
-func customMetadataFromC(custom C.CustomMetadata) uplink.CustomMetadata {
+func customMetadataFromC(custom C.Uplink_CustomMetadata) uplink.CustomMetadata {
 	if custom.count == 0 {
 		return uplink.CustomMetadata{}
 	}
 
 	customMetadata := uplink.CustomMetadata{}
 
-	var array []C.CustomMetadataEntry
+	var array []C.Uplink_CustomMetadataEntry
 	*(*reflect.SliceHeader)(unsafe.Pointer(&array)) = reflect.SliceHeader{
 		Data: uintptr(unsafe.Pointer(custom.entries)),
 		Len:  int(custom.count),
@@ -83,7 +83,7 @@ func customMetadataFromC(custom C.CustomMetadata) uplink.CustomMetadata {
 	return customMetadata
 }
 
-func freeCustomMetadataData(custom *C.CustomMetadata) {
+func freeCustomMetadataData(custom *C.Uplink_CustomMetadata) {
 	if custom.entries == nil {
 		return
 	}
@@ -91,7 +91,7 @@ func freeCustomMetadataData(custom *C.CustomMetadata) {
 		C.free(unsafe.Pointer(custom.entries))
 	}()
 
-	var array []C.CustomMetadataEntry
+	var array []C.Uplink_CustomMetadataEntry
 	*(*reflect.SliceHeader)(unsafe.Pointer(&array)) = reflect.SliceHeader{
 		Data: uintptr(unsafe.Pointer(custom.entries)),
 		Len:  int(custom.count),
