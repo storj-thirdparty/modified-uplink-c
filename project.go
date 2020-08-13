@@ -19,6 +19,7 @@ type Project struct {
 
 //export uplink_open_project
 // uplink_open_project opens project using access grant.
+//export MAKE_CONST=1
 func uplink_open_project(access *C.Uplink_Access) C.Uplink_ProjectResult {
 	if access == nil {
 		return C.Uplink_ProjectResult{
@@ -50,6 +51,7 @@ func uplink_open_project(access *C.Uplink_Access) C.Uplink_ProjectResult {
 
 //export uplink_close_project
 // uplink_close_project closes the project.
+//export MAKE_CONST=1
 func uplink_close_project(project *C.Uplink_Project) *C.Uplink_Error {
 	if project == nil {
 		return nil

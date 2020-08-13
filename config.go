@@ -14,6 +14,7 @@ import (
 
 //export uplink_config_request_access_with_passphrase
 // uplink_config_request_access_with_passphrase requests satellite for a new access grant using a passhprase.
+//export MAKE_CONST=2,3,4
 func uplink_config_request_access_with_passphrase(config C.Uplink_Config, satellite_address, api_key, passphrase *C.char) C.Uplink_AccessResult { //nolint:golint
 	if satellite_address == nil {
 		return C.Uplink_AccessResult{
@@ -49,6 +50,7 @@ func uplink_config_request_access_with_passphrase(config C.Uplink_Config, satell
 
 //export uplink_config_open_project
 // uplink_config_open_project opens project using access grant.
+//export MAKE_CONST=2
 func uplink_config_open_project(config C.Uplink_Config, access *C.Uplink_Access) C.Uplink_ProjectResult {
 	if access == nil {
 		return C.Uplink_ProjectResult{

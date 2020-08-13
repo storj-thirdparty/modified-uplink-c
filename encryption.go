@@ -23,6 +23,7 @@ type EncryptionKey struct {
 //
 // This function is useful for deriving a salted encryption key for users when
 // implementing multitenancy in a single app bucket.
+//export MAKE_CONST=1,2
 func uplink_derive_encryption_key(passphrase *C.char, salt unsafe.Pointer, length C.size_t) C.Uplink_EncryptionKeyResult {
 	if passphrase == nil {
 		return C.Uplink_EncryptionKeyResult{

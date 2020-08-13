@@ -13,6 +13,7 @@ import (
 
 //export uplink_stat_bucket
 // uplink_stat_bucket returns information about a bucket.
+//export MAKE_CONST=1,2
 func uplink_stat_bucket(project *C.Uplink_Project, bucket_name *C.char) C.Uplink_BucketResult { //nolint:golint
 	if project == nil {
 		return C.Uplink_BucketResult{
@@ -44,6 +45,7 @@ func uplink_stat_bucket(project *C.Uplink_Project, bucket_name *C.char) C.Uplink
 // uplink_create_bucket creates a new bucket.
 //
 // When bucket already exists it returns a valid Bucket and ErrBucketExists.
+//export MAKE_CONST=1,2
 func uplink_create_bucket(project *C.Uplink_Project, bucket_name *C.char) C.Uplink_BucketResult { //nolint:golint
 	if project == nil {
 		return C.Uplink_BucketResult{
@@ -75,6 +77,7 @@ func uplink_create_bucket(project *C.Uplink_Project, bucket_name *C.char) C.Upli
 // uplink_ensure_bucket creates a new bucket and ignores the error when it already exists.
 //
 // When bucket already exists it returns a valid Bucket and ErrBucketExists.
+//export MAKE_CONST=1,2
 func uplink_ensure_bucket(project *C.Uplink_Project, bucket_name *C.char) C.Uplink_BucketResult { //nolint:golint
 	if project == nil {
 		return C.Uplink_BucketResult{
@@ -106,6 +109,7 @@ func uplink_ensure_bucket(project *C.Uplink_Project, bucket_name *C.char) C.Upli
 // uplink_delete_bucket deletes a bucket.
 //
 // When bucket is not empty it returns ErrBucketNotEmpty.
+//export MAKE_CONST=1,2
 func uplink_delete_bucket(project *C.Uplink_Project, bucket_name *C.char) C.Uplink_BucketResult { //nolint:golint
 	if project == nil {
 		return C.Uplink_BucketResult{
@@ -153,6 +157,7 @@ func uplink_free_bucket_result(result C.Uplink_BucketResult) {
 
 //export uplink_free_bucket
 // uplink_free_bucket frees memory associated with the bucket.
+//export MAKE_CONST=1
 func uplink_free_bucket(bucket *C.Uplink_Bucket) {
 	if bucket == nil {
 		return

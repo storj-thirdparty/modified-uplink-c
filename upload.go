@@ -21,6 +21,7 @@ type Upload struct {
 
 //export uplink_upload_object
 // uplink_upload_object starts an upload to the specified key.
+//export MAKE_CONST=1,2,3,4
 func uplink_upload_object(project *C.Uplink_Project, bucket_name, object_key *C.char, options *C.Uplink_UploadOptions) C.Uplink_UploadResult { //nolint:golint
 	if project == nil {
 		return C.Uplink_UploadResult{
@@ -69,6 +70,7 @@ func uplink_upload_object(project *C.Uplink_Project, bucket_name, object_key *C.
 // uplink_upload_write uploads len(p) bytes from p to the object's data stream.
 // It returns the number of bytes written from p (0 <= n <= len(p)) and
 // any error encountered that caused the write to stop early.
+//export MAKE_CONST=1,2
 func uplink_upload_write(upload *C.Uplink_Upload, bytes unsafe.Pointer, length C.size_t) C.Uplink_WriteResult {
 	up, ok := universe.Get(upload._handle).(*Upload)
 	if !ok {
@@ -100,6 +102,7 @@ func uplink_upload_write(upload *C.Uplink_Upload, bytes unsafe.Pointer, length C
 
 //export uplink_upload_commit
 // uplink_upload_commit commits the uploaded data.
+//export MAKE_CONST=1
 func uplink_upload_commit(upload *C.Uplink_Upload) *C.Uplink_Error {
 	up, ok := universe.Get(upload._handle).(*Upload)
 	if !ok {
@@ -112,6 +115,7 @@ func uplink_upload_commit(upload *C.Uplink_Upload) *C.Uplink_Error {
 
 //export uplink_upload_abort
 // uplink_upload_abort aborts an upload.
+//export MAKE_CONST=1
 func uplink_upload_abort(upload *C.Uplink_Upload) *C.Uplink_Error {
 	up, ok := universe.Get(upload._handle).(*Upload)
 	if !ok {
@@ -124,6 +128,7 @@ func uplink_upload_abort(upload *C.Uplink_Upload) *C.Uplink_Error {
 
 //export uplink_upload_info
 // uplink_upload_info returns the last information about the uploaded object.
+//export MAKE_CONST=1
 func uplink_upload_info(upload *C.Uplink_Upload) C.Uplink_ObjectResult {
 	up, ok := universe.Get(upload._handle).(*Upload)
 	if !ok {
@@ -140,6 +145,7 @@ func uplink_upload_info(upload *C.Uplink_Upload) C.Uplink_ObjectResult {
 
 //export uplink_upload_set_custom_metadata
 // uplink_upload_set_custom_metadata returns the last information about the uploaded object.
+//export MAKE_CONST=1
 func uplink_upload_set_custom_metadata(upload *C.Uplink_Upload, custom C.Uplink_CustomMetadata) *C.Uplink_Error {
 	up, ok := universe.Get(upload._handle).(*Upload)
 	if !ok {

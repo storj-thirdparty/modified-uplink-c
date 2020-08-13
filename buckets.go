@@ -21,6 +21,7 @@ type BucketIterator struct {
 
 //export uplink_list_buckets
 // uplink_list_buckets lists buckets.
+//export MAKE_CONST=1,2
 func uplink_list_buckets(project *C.Uplink_Project, options *C.Uplink_ListBucketsOptions) *C.Uplink_BucketIterator {
 	if project == nil {
 		return (*C.Uplink_BucketIterator)(mallocHandle(universe.Add(&BucketIterator{
@@ -51,6 +52,7 @@ func uplink_list_buckets(project *C.Uplink_Project, options *C.Uplink_ListBucket
 // uplink_bucket_iterator_next prepares next Bucket for reading.
 //
 // It returns false if the end of the iteration is reached and there are no more buckets, or if there is an error.
+//export MAKE_CONST=1
 func uplink_bucket_iterator_next(iterator *C.Uplink_BucketIterator) C.bool {
 	if iterator == nil {
 		return C.bool(false)
@@ -69,6 +71,7 @@ func uplink_bucket_iterator_next(iterator *C.Uplink_BucketIterator) C.bool {
 
 //export uplink_bucket_iterator_err
 // uplink_bucket_iterator_err returns error, if one happened during iteration.
+//export MAKE_CONST=1
 func uplink_bucket_iterator_err(iterator *C.Uplink_BucketIterator) *C.Uplink_Error {
 	if iterator == nil {
 		return mallocError(ErrNull.New("iterator"))
@@ -87,6 +90,7 @@ func uplink_bucket_iterator_err(iterator *C.Uplink_BucketIterator) *C.Uplink_Err
 
 //export uplink_bucket_iterator_item
 // uplink_bucket_iterator_item returns the current bucket in the iterator.
+//export MAKE_CONST=1
 func uplink_bucket_iterator_item(iterator *C.Uplink_BucketIterator) *C.Uplink_Bucket {
 	if iterator == nil {
 		return nil
@@ -102,6 +106,7 @@ func uplink_bucket_iterator_item(iterator *C.Uplink_BucketIterator) *C.Uplink_Bu
 
 //export uplink_free_bucket_iterator
 // uplink_free_bucket_iterator frees memory associated with the BucketIterator.
+//export MAKE_CONST=1
 func uplink_free_bucket_iterator(iterator *C.Uplink_BucketIterator) {
 	if iterator == nil {
 		return

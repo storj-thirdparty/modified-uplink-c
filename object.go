@@ -13,6 +13,7 @@ import (
 
 //export uplink_stat_object
 // uplink_stat_object returns information about an object at the specific key.
+//export MAKE_CONST=1,2,3
 func uplink_stat_object(project *C.Uplink_Project, bucket_name, object_key *C.char) C.Uplink_ObjectResult { //nolint:golint
 	if project == nil {
 		return C.Uplink_ObjectResult{
@@ -46,6 +47,7 @@ func uplink_stat_object(project *C.Uplink_Project, bucket_name, object_key *C.ch
 
 //export uplink_delete_object
 // uplink_delete_object deletes an object.
+//export MAKE_CONST=1,2,3
 func uplink_delete_object(project *C.Uplink_Project, bucket_name, object_key *C.char) C.Uplink_ObjectResult { //nolint:golint
 	if project == nil {
 		return C.Uplink_ObjectResult{
@@ -112,6 +114,7 @@ func uplink_free_object_result(obj C.Uplink_ObjectResult) {
 
 //export uplink_free_object
 // uplink_free_object frees memory associated with the Object.
+//export MAKE_CONST=1
 func uplink_free_object(obj *C.Uplink_Object) {
 	if obj == nil {
 		return

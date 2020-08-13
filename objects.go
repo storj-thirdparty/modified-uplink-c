@@ -21,6 +21,7 @@ type ObjectIterator struct {
 
 //export uplink_list_objects
 // uplink_list_objects lists objects.
+//export MAKE_CONST=1,2,3
 func uplink_list_objects(project *C.Uplink_Project, bucket_name *C.char, options *C.Uplink_ListObjectsOptions) *C.Uplink_ObjectIterator { //nolint:golint
 	if project == nil {
 		return (*C.Uplink_ObjectIterator)(mallocHandle(universe.Add(&ObjectIterator{
@@ -62,6 +63,7 @@ func uplink_list_objects(project *C.Uplink_Project, bucket_name *C.char, options
 // upink_object_iterator_next prepares next Object for reading.
 //
 // It returns false if the end of the iteration is reached and there are no more objects, or if there is an error.
+//export MAKE_CONST=1
 func uplink_object_iterator_next(iterator *C.Uplink_ObjectIterator) C.bool {
 	if iterator == nil {
 		return C.bool(false)
@@ -80,6 +82,7 @@ func uplink_object_iterator_next(iterator *C.Uplink_ObjectIterator) C.bool {
 
 //export uplink_object_iterator_err
 // uplink_object_iterator_err returns error, if one happened during iteration.
+//export MAKE_CONST=1
 func uplink_object_iterator_err(iterator *C.Uplink_ObjectIterator) *C.Uplink_Error {
 	if iterator == nil {
 		return mallocError(ErrNull.New("iterator"))
@@ -98,6 +101,7 @@ func uplink_object_iterator_err(iterator *C.Uplink_ObjectIterator) *C.Uplink_Err
 
 //export uplink_object_iterator_item
 // uplink_object_iterator_item returns the current object in the iterator.
+//export MAKE_CONST=1
 func uplink_object_iterator_item(iterator *C.Uplink_ObjectIterator) *C.Uplink_Object {
 	if iterator == nil {
 		return nil
@@ -113,6 +117,7 @@ func uplink_object_iterator_item(iterator *C.Uplink_ObjectIterator) *C.Uplink_Ob
 
 //export uplink_free_object_iterator
 // uplink_free_object_iterator frees memory associated with the ObjectIterator.
+//export MAKE_CONST=1
 func uplink_free_object_iterator(iterator *C.Uplink_ObjectIterator) {
 	if iterator == nil {
 		return

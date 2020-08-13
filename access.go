@@ -21,6 +21,7 @@ type Access struct {
 
 //export uplink_parse_access
 // uplink_parse_access parses serialized access grant string.
+//export MAKE_CONST=1
 func uplink_parse_access(accessString *C.char) C.Uplink_AccessResult { //nolint:golint
 	access, err := uplink.ParseAccess(C.GoString(accessString))
 	if err != nil {
@@ -36,6 +37,7 @@ func uplink_parse_access(accessString *C.char) C.Uplink_AccessResult { //nolint:
 
 //export uplink_request_access_with_passphrase
 // uplink_request_access_with_passphrase requests satellite for a new access grant using a passhprase.
+//export MAKE_CONST=1,2,3
 func uplink_request_access_with_passphrase(satellite_address, api_key, passphrase *C.char) C.Uplink_AccessResult { //nolint:golint
 	if satellite_address == nil {
 		return C.Uplink_AccessResult{
@@ -68,6 +70,7 @@ func uplink_request_access_with_passphrase(satellite_address, api_key, passphras
 
 //export uplink_access_serialize
 // uplink_access_serialize serializes access grant into a string.
+//export MAKE_CONST=1
 func uplink_access_serialize(access *C.Uplink_Access) C.Uplink_StringResult {
 	if access == nil {
 		return C.Uplink_StringResult{
@@ -95,6 +98,7 @@ func uplink_access_serialize(access *C.Uplink_Access) C.Uplink_StringResult {
 
 //export uplink_access_share
 // uplink_access_share creates new access grant with specific permission. Permission will be applied to prefixes when defined.
+//export MAKE_CONST=1,3
 func uplink_access_share(access *C.Uplink_Access, permission C.Uplink_Permission, prefixes *C.Uplink_SharePrefix, prefixes_count int) C.Uplink_AccessResult { //nolint:golint
 	if access == nil {
 		return C.Uplink_AccessResult{
@@ -157,6 +161,7 @@ func uplink_access_share(access *C.Uplink_Access, permission C.Uplink_Permission
 //
 // This function is useful for overriding the encryption key in user-specific
 // access grants when implementing multitenancy in a single app bucket.
+//export MAKE_CONST=1,2,3,4
 func uplink_access_override_encryption_key(access *C.Uplink_Access, bucket, prefix *C.char, encryptionKey *C.Uplink_EncryptionKey) *C.Uplink_Error { //nolint:golint
 	if access == nil {
 		return mallocError(ErrNull.New("access"))

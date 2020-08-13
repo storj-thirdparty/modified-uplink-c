@@ -20,6 +20,7 @@ type Download struct {
 
 //export uplink_download_object
 // uplink_download_object starts  download to the specified key.
+//export MAKE_CONST=1,2,3,4
 func uplink_download_object(project *C.Uplink_Project, bucket_name, object_key *C.char, options *C.Uplink_DownloadOptions) C.Uplink_DownloadResult { //nolint:golint
 	if project == nil {
 		return C.Uplink_DownloadResult{
@@ -70,6 +71,7 @@ func uplink_download_object(project *C.Uplink_Project, bucket_name, object_key *
 // uplink_download_read downloads from object's data stream into bytes up to length amount.
 // It returns the number of bytes read (0 <= bytes_read <= length) and
 // any error encountered that caused the read to stop early.
+//export MAKE_CONST=1,2
 func uplink_download_read(download *C.Uplink_Download, bytes unsafe.Pointer, length C.size_t) C.Uplink_ReadResult {
 	down, ok := universe.Get(download._handle).(*Download)
 	if !ok {
@@ -101,6 +103,7 @@ func uplink_download_read(download *C.Uplink_Download, bytes unsafe.Pointer, len
 
 //export uplink_download_info
 // uplink_download_info returns information about the downloaded object.
+//export MAKE_CONST=1
 func uplink_download_info(download *C.Uplink_Download) C.Uplink_ObjectResult {
 	down, ok := universe.Get(download._handle).(*Download)
 	if !ok {
@@ -123,6 +126,7 @@ func uplink_free_read_result(result C.Uplink_ReadResult) {
 
 //export uplink_close_download
 // uplink_close_download closes the download.
+//export MAKE_CONST=1
 func uplink_close_download(download *C.Uplink_Download) *C.Uplink_Error {
 	if download == nil {
 		return nil

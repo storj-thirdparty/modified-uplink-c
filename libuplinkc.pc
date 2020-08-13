@@ -1,0 +1,11 @@
+prefix=@DESTDIR@
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: Uplink-C
+Description: C library for Storj V3 Network
+URL: https://github.com/storj-thirdparty/modified-uplink-c
+Version: 1.0.5
+CFlags: -I${includedir}
+Libs: -L${libdir} -luplink
